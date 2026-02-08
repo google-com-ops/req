@@ -1,44 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Monitor Dashboard</title>
+  <title>Dark Monitor</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       background: #0f0f0f;
       color: #ccc;
-      font-family: Arial, sans-serif;
+      font-family: Arial;
       text-align: center;
-    }
-
-    h1 {
-      color: #fff;
-      margin-top: 30px;
     }
 
     .card {
       background: #1c1c1c;
+      margin: 30px auto;
       padding: 20px;
-      margin: 20px auto;
       width: 80%;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(255,255,255,0.05);
     }
 
-    canvas {
-      background: #111;
-      border-radius: 10px;
-      padding: 10px;
-    }
+    h1 { color: white; }
   </style>
 </head>
 <body>
 
-  <h1>Server Traffic Monitor</h1>
+<h1>Traffic Monitor</h1>
 
-  <div class="card">
-    <canvas id="chart"></canvas>
-  </div>
+<div class="card">
+  <canvas id="chart"></canvas>
+</div>
 
 <script>
 const ctx = document.getElementById('chart').getContext('2d');
@@ -50,41 +41,24 @@ const chart = new Chart(ctx, {
     datasets: [{
       label: 'Requests',
       data: [],
-      borderColor: '#888',
-      backgroundColor: 'rgba(150,150,150,0.2)',
+      borderColor: '#aaa',
+      backgroundColor: 'rgba(200,200,200,0.2)',
       tension: 0.3
     }]
-  },
-  options: {
-    scales: {
-      x: {
-        ticks: { color: '#aaa' },
-        grid: { color: '#222' }
-      },
-      y: {
-        ticks: { color: '#aaa' },
-        grid: { color: '#222' }
-      }
-    },
-    plugins: {
-      legend: {
-        labels: { color: '#ccc' }
-      }
-    }
   }
 });
 
-async function updateData() {
-  const res = await fetch('/api/stats');
-  const data = await res.json();
+async function loadData() {
+  const res = await fetch('/api/report');
+  const json = await res.json();
 
-  chart.data.labels = data.map(d => d.time);
-  chart.data.datasets[0].data = data.map(d => d.value);
+  chart.data.labels = json.data.map(d => d.time);
+  chart.data.datasets[0].data = json.data.map((_, i) => i + 1);
   chart.update();
 }
 
-setInterval(updateData, 3000);
-updateData();
+setInterval(loadData, 600000); // 10 menit
+loadData();
 </script>
 
 </body>
