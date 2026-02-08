@@ -1,6 +1,6 @@
 let logs = [];
 
-const BOT_TOKEN = "8203281432:AAGM0aze8Dt8CPXzW4svTzBw3ZB-iLt2GRs";
+const BOT_TOKEN = "8203281432:AAFimQfMWlb6tcVF_B9a0Ku_VrBOjJ39KQQ";
 const CHAT_ID = "8468685075";
 
 export default async function handler(req, res) {
