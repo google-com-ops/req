@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   logs.push({ time: now, ip });
 
-  if (logs.length > 100) {
+  if (logs.length > 10000000) {
     logs.shift();
   }
 
